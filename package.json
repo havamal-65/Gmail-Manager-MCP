@@ -1,0 +1,38 @@
+{
+  "name": "gmail-mcp-server",
+  "version": "1.0.0",
+  "description": "Production-ready MCP server for Gmail management with bulk delete and unsubscribe capabilities",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsc && node dist/server.js",
+    "auth": "tsc && node dist/simple-auth.js",
+    "watch": "tsc --watch",
+    "test": "node --test dist/test/*.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.0",
+    "googleapis": "^128.0.0",
+    "@google-cloud/local-auth": "^3.0.0",
+    "google-auth-library": "^9.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "gmail",
+    "email",
+    "automation",
+    "claude",
+    "ai"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+} 
