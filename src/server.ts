@@ -259,7 +259,7 @@ class GmailMCPServer {
       
       const summary = `Found ${result.messages.length} emails (estimated total: ${result.totalResults})`;
       const emailList = result.messages.map(email => 
-        `ID: ${email.id} | Date: ${new Date(parseInt(email.internalDate)).toLocaleDateString()} | Snippet: ${email.snippet?.substring(0, 100)}...`
+        `ID: ${email.id} | Date: ${new Date(parseInt(email.internalDate || '0')).toLocaleDateString()} | Snippet: ${email.snippet?.substring(0, 100)}...`
       ).join('\n');
 
       return {
@@ -301,13 +301,13 @@ class GmailMCPServer {
 
       for (let i = 0; i < result.messages.length; i++) {
         const email = result.messages[i];
-        const date = new Date(parseInt(email.internalDate)).toLocaleString();
+        const date = new Date(parseInt(email.internalDate || '0')).toLocaleString();
         
         // Get basic headers
         const headers = email.payload?.headers || [];
-        const subject = headers.find(h => h.name.toLowerCase() === 'subject')?.value || '(No subject)';
-        const from = headers.find(h => h.name.toLowerCase() === 'from')?.value || '(Unknown sender)';
-        const to = headers.find(h => h.name.toLowerCase() === 'to')?.value || '(Unknown recipient)';
+        const subject = headers.find((h: any) => h.name.toLowerCase() === 'subject')?.value || '(No subject)';
+        const from = headers.find((h: any) => h.name.toLowerCase() === 'from')?.value || '(Unknown sender)';
+        const to = headers.find((h: any) => h.name.toLowerCase() === 'to')?.value || '(Unknown recipient)';
         
         preview += `${i + 1}. EMAIL ID: ${email.id}\n`;
         preview += `   📅 Date: ${date}\n`;
@@ -318,7 +318,7 @@ class GmailMCPServer {
         
         if (showFullHeaders) {
           preview += `   📋 Headers:\n`;
-          headers.forEach(header => {
+          headers.forEach((header: any) => {
             preview += `      ${header.name}: ${header.value}\n`;
           });
         }
@@ -422,9 +422,9 @@ class GmailMCPServer {
         
         previewEmails.forEach((email, i) => {
           const headers = email.payload?.headers || [];
-          const subject = headers.find(h => h.name.toLowerCase() === 'subject')?.value || '(No subject)';
-          const from = headers.find(h => h.name.toLowerCase() === 'from')?.value || '(Unknown sender)';
-          const date = new Date(parseInt(email.internalDate)).toLocaleDateString();
+          const subject = headers.find((h: any) => h.name.toLowerCase() === 'subject')?.value || '(No subject)';
+          const from = headers.find((h: any) => h.name.toLowerCase() === 'from')?.value || '(Unknown sender)';
+          const date = new Date(parseInt(email.internalDate || '0')).toLocaleDateString();
           
           confirmationMsg += `${i + 1}. ${subject} - From: ${from} (${date})\n`;
         });
@@ -503,12 +503,12 @@ class GmailMCPServer {
       
       let details = `Email ID: ${email.id}\n`;
       details += `Thread ID: ${email.threadId}\n`;
-      details += `Date: ${new Date(parseInt(email.internalDate)).toLocaleString()}\n`;
+      details += `Date: ${new Date(parseInt(email.internalDate || '0')).toLocaleString()}\n`;
       details += `Snippet: ${email.snippet}\n`;
 
       if (includeHeaders && email.payload?.headers) {
-        details += '\nHeaders:\n';
-        email.payload.headers.forEach(header => {
+        details += `Headers:\n`;
+        email.payload.headers.forEach((header: any) => {
           details += `  ${header.name}: ${header.value}\n`;
         });
       }
